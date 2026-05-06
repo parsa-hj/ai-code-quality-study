@@ -94,7 +94,7 @@ ai-vs-human-code-quality/
 ├── README.md
 │
 ├── research/
-│   ├── proposal.md          # Original project proposal
+│   ├── proposal.md         # Original project proposal
 │   ├── methodology.md      # Detailed experimental design
 │   ├── metrics.md          # Definitions of all metrics used
 │   └── limitations.md      # Assumptions and constraints
