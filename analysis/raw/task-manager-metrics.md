@@ -9,6 +9,7 @@ This snapshot compares the four task-manager implementations in the repository a
 - Code Duplication
 - Test Coverage
 - Defect Density
+- Security Findings
 - Change Effort
 
 The values below are qualitative unless otherwise noted. No committed SonarQube reports, ESLint reports, or Jest coverage artifacts were present in the repository, so the analysis is based on direct code inspection plus simple repository counts.
@@ -69,6 +70,15 @@ The values below are qualitative unless otherwise noted. No committed SonarQube 
 | Claude Sonnet 4.6 | Moderate defect risk from inconsistent error paths and fewer shared safeguards, though the test suite offsets some of that risk.                                                                     |
 | Llama 3           | Highest visible defect density. Examples include invalid middleware structure in `authorization.js`, missing JWT/session handling, and exposure of user objects directly from login/register routes. |
 
+### Security Findings
+
+| Codebase          | Evidence                                                                                                                                                                                                                                     |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Human baseline    | Basic auth and owner-scoping exist, but the repository provides little route-level security verification. The implementation looks more production-oriented than the weaker AI variants, yet confidence is reduced by the missing API tests. |
+| GPT-5.4           | Strongest security posture in this project sample. Auth, authorization, validation, and centralized error paths are more consistent, and the committed test harness exercises protected behavior.                                            |
+| Claude Sonnet 4.6 | Security posture is workable but less uniform than GPT-5.4. Authorization and auth flows exist, but repeated manual controller logic raises the risk of inconsistent failure handling over time.                                             |
+| Llama 3           | Highest security risk. The implementation lacks production-ready JWT/session handling, has weak authorization structure, and exposes raw user data directly from auth responses.                                                             |
+
 ### Change Effort
 
 | Codebase          | Evidence                                                                                                                                                                               |
@@ -87,6 +97,7 @@ The values below are qualitative unless otherwise noted. No committed SonarQube 
 | Code Duplication      | Medium         | Low                         | Medium                | Low by size only            |
 | Test Coverage         | Very low       | High relative to repo       | High relative to repo | None                        |
 | Defect Density        | Medium         | Low                         | Medium                | High                        |
+| Security Findings     | Medium         | Low                         | Medium                | High                        |
 | Change Effort         | Medium to high | Low                         | Medium                | Very high                   |
 
 ## Important Caveat

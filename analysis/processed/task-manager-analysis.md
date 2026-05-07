@@ -36,6 +36,12 @@ The repository does not include a numeric bug log, so defect density must be inf
 
 Llama 3 has the highest defect density by inspection. Its authorization flow is not production-ready, it lacks JWT/session handling, and it returns raw user objects from auth routes. Those are not just style issues; they materially increase security and correctness risk.
 
+### Security Findings
+
+Security posture in the task-manager project broadly tracks the same pattern as maintainability and testability. GPT-5.4 is strongest because authorization, validation, and error handling are treated as cross-cutting concerns rather than scattered route details. Claude Sonnet 4.6 is serviceable, but its repeated controller logic makes long-term consistency harder to preserve.
+
+The human baseline appears more production-like than the weakest AI variant, but the repository's missing route-level tests reduce confidence in whether its security assumptions hold under change. Llama 3 is the clearest outlier in the negative direction: missing production-ready session handling and weak authorization boundaries make it unsafe to treat as a serious baseline.
+
 ### Change Effort
 
 Change effort is lowest in GPT-5.4 because its abstractions align with the likely axes of change: route expansion, validation updates, error handling, and authenticated task access. Claude Sonnet 4.6 is still reasonably changeable, but repeated controller boilerplate increases the cost of consistent updates. The human baseline requires more care because API behavior is spread across many files without matching route-level tests. Llama 3 would require structural rework before even routine enhancements could be made safely.
@@ -62,4 +68,4 @@ Llama 3 is best treated as a prototype rather than a comparable production-style
 
 For the task-manager task in this repository, the strongest evidence supports a mixed conclusion rather than a blanket claim that AI-generated code is worse than human-written code. One AI system, GPT-5.4, produced the most maintainable and testable implementation in this sample. Another AI system, Llama 3, produced the weakest implementation by a large margin. The human baseline sits between them: it is feature-complete and recognizable as real application code, but its lack of task-manager API tests raises maintenance cost for future changes.
 
-That means the repository's current evidence supports a model-sensitive conclusion: AI-assisted development can produce either strong or weak code quality outcomes, and the decisive factors are engineering discipline, consistency, and validation support rather than authorship label alone.
+That means the repository's current evidence supports a model-sensitive conclusion: AI-assisted development can produce either strong or weak code quality outcomes, and the decisive factors are engineering discipline, consistency, validation support, and basic security hygiene rather than authorship label alone.

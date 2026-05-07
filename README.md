@@ -2,9 +2,14 @@
 
 ## Overview
 
-This project evaluates the impact of AI-assisted code generation on software quality and long-term maintainability. It compares a human-written task manager API (sourced from an existing GitHub repository) with multiple AI-generated implementations created using modern coding assistants.
+This project evaluates the impact of AI-assisted code generation on software quality, security posture, and long-term maintainability. It compares human-written baselines with multiple AI-generated implementations created using modern coding assistants.
 
-The goal is to understand whether AI-generated code introduces higher complexity, lower maintainability, or increased technical debt compared to traditional human-written code.
+The current repository studies two application types:
+
+- A task manager API
+- A grocery shopping Flutter app
+
+The goal is to understand whether AI-generated code introduces higher complexity, lower maintainability, weaker security posture, or increased technical debt compared to traditional human-written code.
 
 ---
 
@@ -18,18 +23,21 @@ The goal is to understand whether AI-generated code introduces higher complexity
 
 ### Experimental Design
 
-* One human-written task manager API (baseline)
-* Multiple AI-generated versions of the same system using different LLMs in GitHub Copilot and Ollama:
+- One human-written baseline and multiple AI-generated versions for each project
+- Two project families:
+  - Task manager API
+  - Grocery shopping Flutter app
 
-  * GPT 5.4
-  * Claude Sonnet 4.6
-  * Llama 3
+- AI-generated versions of each system using different LLMs in GitHub Copilot and Ollama:
+  - GPT 5.4
+  - Claude Sonnet 4.6
+  - Llama 3
 
 Each version:
 
-* Implements the same functional requirements
-* Uses the same runtime environment
-* Is evaluated using identical metrics
+- Implements the same functional requirements
+- Uses the same runtime environment
+- Is evaluated using identical metrics
 
 ---
 
@@ -39,17 +47,24 @@ The study uses three layers of analysis:
 
 #### 1. Static Code Analysis
 
-* Cyclomatic Complexity
-* Maintainability Index
-* Code Duplication
-* Code Smells and Linting Issues
+- Cyclomatic Complexity
+- Maintainability Index
+- Code Duplication
+- Code Smells and Linting Issues
 
 #### 2. Testing & Reliability
 
-* Test Coverage
-* Defect Density (failures per 1000 lines of code)
+- Test Coverage
+- Defect Density (failures per 1000 lines of code)
 
-#### 3. Maintainability (Change Task)
+#### 3. Security Review
+
+- Security Findings
+- Credential and token handling
+- Local storage safety
+- Validation and authorization boundaries
+
+#### 4. Maintainability (Change Task)
 
 Each codebase is given the same modification task:
 
@@ -57,32 +72,32 @@ Each codebase is given the same modification task:
 
 Measured:
 
-* Time required
-* Number of files modified
-* Bugs introduced after the change
+- Time required
+- Number of files modified
+- Bugs introduced after the change
 
 ---
 
 ## Metrics
 
-* **Cyclomatic Complexity** – Measures code logic complexity
-* **Maintainability Index** – Indicates how maintainable the code is
-* **Code Duplication (%)** – Identifies repeated code blocks
-* **Test Coverage (%)** – Measures how much code is tested
-* **Defect Density** – Bugs per 1000 lines of code
-* **Change Effort** – Time and work required to modify the system
+- **Cyclomatic Complexity** – Measures code logic complexity
+- **Maintainability Index** – Indicates how maintainable the code is
+- **Code Duplication (%)** – Identifies repeated code blocks
+- **Test Coverage (%)** – Measures how much code is tested
+- **Defect Density** – Bugs per 1000 lines of code
+- **Security Findings** – Observed security weaknesses and robustness risks
+- **Change Effort** – Time and work required to modify the system
 
 ---
 
 ## Tools Used
 
-* Static Analysis: SonarQube
-* Linting: ESLint
-* Testing: Jest
-* AI Code Generation:
-
-  * GitHub Copilot
-  * Ollama
+- Static Analysis: SonarQube
+- Linting: ESLint
+- Testing: Jest
+- AI Code Generation:
+  - GitHub Copilot
+  - Ollama
 
 ---
 
@@ -100,10 +115,15 @@ ai-vs-human-code-quality/
 │   └── limitations.md      # Assumptions and constraints
 │
 ├── projects/
+│   ├── grocery-app/
+│   │   ├── human/
+│   │   └── ai/
+│   │       ├── Claude-Sonnet-4.6/
+│   │       ├── GPT-5.4/
+│   │       └── Llama-3/
 │   └── task-manager/
 │       ├── human/          # Human-written codebase (cleaned + documented)
 │       │   └── SOURCE.md   # Original repo reference and modifications
-│       │
 │       └── ai/
 │           ├── Claude-Sonnet-4.6/
 │           ├── GPT-5.4/
@@ -131,19 +151,19 @@ ai-vs-human-code-quality/
 
 This project is designed to be fully reproducible:
 
-* All AI prompts are documented in `/prompts`
-* Human code source and modifications are documented in `/projects/task-manager/human/SOURCE.md`
-* Analysis scripts and raw outputs are included
-* Metrics definitions are clearly specified
+- All AI prompts are documented in `/prompts`
+- Human code source and modifications are documented in `/projects/task-manager/human/SOURCE.md`
+- Analysis scripts and raw outputs are included
+- Metrics definitions are clearly specified
 
 ---
 
 ## Key Assumptions & Limitations
 
-* The human-written codebase is assumed to be developed without AI assistance
-* AI-generated code quality may vary based on prompt quality
-* The study uses a limited number of projects and may not generalize to large-scale systems
-* Results may be influenced by developer experience and interpretation
+- The human-written codebase is assumed to be developed without AI assistance
+- AI-generated code quality may vary based on prompt quality
+- The study uses a limited number of projects and may not generalize to large-scale systems
+- Results may be influenced by developer experience and interpretation
 
 ---
 
@@ -151,16 +171,18 @@ This project is designed to be fully reproducible:
 
 This project aims to:
 
-* Identify differences in code quality between AI and human development
-* Quantify trade-offs between speed and maintainability
-* Highlight risks such as increased coupling or hidden defects in AI-generated code
-* Provide practical insights for responsible AI-assisted development
+- Identify differences in code quality between AI and human development
+- Quantify trade-offs between speed and maintainability
+- Surface security weaknesses that affect whether generated code is safe to evolve or demo only
+- Highlight risks such as increased coupling or hidden defects in AI-generated code
+- Provide practical insights for responsible AI-assisted development
 
 ---
 
 ## Future Work
 
-* Expand to larger and more complex systems
-* Include more AI tools and models
-* Analyze long-term evolution over multiple change cycles
-* Incorporate team-based development scenarios
+- Expand to larger and more complex systems
+- Include more AI tools and models
+- Analyze long-term evolution over multiple change cycles
+- Add numeric Flutter and Node analysis outputs for both project families
+- Incorporate team-based development scenarios
